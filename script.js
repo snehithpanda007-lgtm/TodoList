@@ -94,8 +94,20 @@ document.querySelector('#changetheme').addEventListener('click', () => {
   if (document.body.style.backgroundColor === 'white') {
     document.body.style.backgroundColor = '#333';
     document.body.style.color = '#fff';
+    document.querySelector('input').style.backgroundColor = '#555';
+    document.querySelector('input').style.color = '#fff';
+    document.querySelectorAll('button').forEach((button) => {
+      button.style.backgroundColor = '#555';
+      button.style.color = '#fff';
+    });
   } else {
     document.body.style.backgroundColor = 'white';
     document.body.style.color = '#000';
+    document.querySelector('input').style.backgroundColor = '#d1d1d1';
+    document.querySelector('input').style.color = '#000';
+    document.querySelectorAll('button').forEach((button) => {
+      button.style.backgroundColor = '#d1d1d1';
+      button.style.color = '#000000';
+    });
   }
 });
