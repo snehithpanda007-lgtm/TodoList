@@ -1,113 +1,36 @@
-const todoList = [];
-const completedList = [];
+const taskInput = document.getElementById('taskInput');
+const addTaskButton = document.getElementById('addTaskButton');
+const taskList = document.getElementById('taskList');
 
-// Add Todo
-document.querySelector('#add-todo').addEventListener('click', () => {
-  const taskInput = document.querySelector('#new-todo');
+addTaskButton.addEventListener('click', addTask);
 
-  const task = taskInput.value.trim();
+function addTask() {
+    const taskText = taskInput.value.trim();
 
-  if (task) {
-    todoList.push(task);
+    if (taskText !== '') {
+        const listItem = document.createElement('li');
+        const taskSpan = document.createElement('span');
+        listItem.classList.add('listItem');
+        taskSpan.textContent = taskText;
+        listItem.appendChild(taskSpan);
 
-    taskInput.value = '';
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('deleteButton');
 
-    renderTodoList();
-  }
-});
+        listItem.appendChild(deleteButton);
+        taskList.appendChild(listItem);
 
-// Render Active Todos
-function renderTodoList() {
-  const todoContainer = document.querySelector('#todo-list');
+        taskInput.value = '';
 
-  todoContainer.innerHTML = '';
+        // Delete task
+        deleteButton.addEventListener('click', function (event) {
+            taskList.removeChild(listItem);
+        });
 
-  todoList.forEach((task, index) => {
-
-    const taskElement = document.createElement('div');
-    taskElement.classList.add('todo-item');
-
-    const taskText = document.createElement('span');
-    taskText.textContent = task;
-
-    // Complete Button
-    const completeButton = document.createElement('button');
-    completeButton.textContent = 'Complete';
-
-    completeButton.addEventListener('click', () => {
-      completedList.push(task);
-
-      todoList.splice(index, 1);
-
-      renderTodoList();
-      renderCompletedList();
-    });
-
-    // Remove Button
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Remove';
-
-    removeButton.addEventListener('click', () => {
-      todoList.splice(index, 1);
-
-      renderTodoList();
-    });
-
-    taskElement.appendChild(taskText);
-    taskElement.appendChild(completeButton);
-    taskElement.appendChild(removeButton);
-
-    todoContainer.appendChild(taskElement);
-  });
+        // Mark task as completed
+        listItem.addEventListener('click', function () {
+            taskSpan.classList.toggle('completed');
+        });
+    }
 }
-
-// Render Completed Todos
-function renderCompletedList() {
-  const completedContainer = document.querySelector('#completed-todos');
-
-  completedContainer.innerHTML = '';
-
-  completedList.forEach((task) => {
-
-    const taskElement = document.createElement('div');
-
-    taskElement.textContent = task;
-
-    taskElement.classList.add('completed');
-
-    completedContainer.appendChild(taskElement);
-  });
-}
-
-// Remove All Todos
-document.querySelector('#remove-all-todo').addEventListener('click', () => {
-  todoList.length = 0;
-  completedList.length = 0;
-
-  renderTodoList();
-  renderCompletedList();
-});
-
-// Theme Toggle
-document.querySelector('#changetheme').addEventListener('click', () => {
-
-  if (document.body.style.backgroundColor === 'white') {
-    document.body.style.backgroundColor = '#333';
-    document.body.style.color = '#fff';
-    document.querySelector('input').style.backgroundColor = '#555';
-    document.querySelector('input').style.color = '#fff';
-    document.querySelectorAll('button').forEach((button) => {
-      button.style.backgroundColor = '#555';
-      button.style.color = '#fff';
-    });
-  } else {
-    document.body.style.backgroundColor = 'white';
-    document.body.style.color = '#000';
-    document.querySelector('input').style.backgroundColor = '#d1d1d1';
-    document.querySelector('input').style.color = '#000';
-    document.querySelectorAll('button').forEach((button) => {
-      button.style.backgroundColor = '#d1d1d1';
-      button.style.color = '#000000';
-    });
-  }
-});
