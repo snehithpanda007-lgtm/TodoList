@@ -4,6 +4,4 @@
 
 Built using html, css, and javascript.
 
-
-
- 
+![App image](TodoList.png)
